@@ -112,13 +112,13 @@ section.block{padding-block:clamp(48px,6vw,84px)}
 .planet:hover .ball,.planet:focus-visible .ball,.planet.lit .ball{transform:scale(1.3);box-shadow:0 0 50px rgba(236,235,230,.35)}
 .planet:hover .lbl,.planet:focus-visible .lbl,.planet.lit .lbl{color:var(--paper)}
 .planet:focus-visible{outline:none}
-.core{all:unset;position:absolute;left:50%;top:50%;width:72px;height:72px;margin:-36px 0 0 -36px;border-radius:50%;cursor:pointer;z-index:2}
+.core{all:unset;position:absolute;left:50%;top:50%;width:60px;height:60px;margin:-30px 0 0 -30px;border-radius:50%;cursor:pointer;z-index:2}
 .core .face{position:absolute;inset:0;border-radius:50%;overflow:hidden;background:#111;box-shadow:0 0 0 1px rgba(236,235,230,.5),0 0 24px rgba(236,235,230,.35);transition:transform .5s cubic-bezier(.2,.8,.2,1)}
 .core .face::before{content:"";position:absolute;inset:0;background:var(--photo) 66.5% 26%/340% auto no-repeat;filter:grayscale(1) contrast(1.12)}
 .core .face::after{content:"";position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 50% 50%,rgba(0,0,0,0) 58%,rgba(0,0,0,.45) 100%)}
 .core:hover .face,.core.lit .face,.core:focus-visible .face{transform:scale(1.06)}
 @keyframes blink{50%{opacity:.25}}
-.core span{position:absolute;left:50%;top:100%;transform:translateX(-50%);margin-top:26px;font-family:var(--mono);font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;color:var(--mute);white-space:nowrap;transition:color .25s}
+.core span{position:absolute;left:50%;top:100%;transform:translateX(-50%);margin-top:22px;font-family:var(--mono);font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;color:var(--mute);white-space:nowrap;transition:color .25s}
 .core:hover span,.core:focus-visible span,.core.lit span{color:var(--paper)}
 .core:focus-visible{outline:none}
 .core:focus-visible .face{box-shadow:0 0 0 2px var(--ink),0 0 0 3px var(--paper)}
@@ -518,7 +518,7 @@ function drawGalaxy(t){
   const lit = (core.matches(':hover') || core.classList.contains('lit')) ? 1 : 0;
   coreLit += (lit - coreLit) * .06;
   if (core.style.visibility !== 'hidden') {
-    const R = 36, amp = 1 + coreLit * .35;
+    const R = 30, amp = 1 + coreLit * .35;
     const halo = og.createRadialGradient(g.cx, g.cy, R * .9, g.cx, g.cy, R + 46 * amp);
     halo.addColorStop(0, 'rgba(236,235,230,.28)'); halo.addColorStop(.35, 'rgba(236,235,230,.07)'); halo.addColorStop(1, 'rgba(236,235,230,0)');
     og.fillStyle = halo; og.beginPath(); og.arc(g.cx, g.cy, R + 46 * amp, 0, Math.PI * 2); og.fill();
@@ -534,7 +534,7 @@ function drawGalaxy(t){
       gasG.beginPath();
       for (let a = 0; a <= Math.PI * 2 + .001; a += .05) {
         const n = Math.sin(a * 2 + t * .00022 * sp + k * 1.3) * .38 + Math.sin(a * 3 - t * .0003 * sp + k * .7) * .3 + Math.sin(a * 5 + t * .00045 + k * 2.9) * .2 + Math.sin(a * 8 - t * .0007 + k) * .12;
-        const r = (R + Math.pow(n * .5 + .5, 1.8) * 36 * w * amp) / q;
+        const r = (R + Math.pow(n * .5 + .5, 1.8) * 30 * w * amp) / q;
         const x = c + r * Math.cos(a), y = c + r * Math.sin(a);
         a ? gasG.lineTo(x, y) : gasG.moveTo(x, y);
       }
@@ -584,7 +584,7 @@ function fillDetail(i){
 /* where planet i sits when the galaxy is at rest (computed, not measured, so a running zoom can't skew it) */
 function restRect(i){
   const g = geom(), r = galaxy.getBoundingClientRect(), o = origin(i);
-  let size = 72;
+  let size = 60;
   if (i > 0) { const w = WORLDS[i - 1], depth = (Math.sin(o.ang) + 1) / 2; size = w.s * (.82 + depth * .3); }
   return {left:r.left + o.x - size / 2, top:r.top + o.y - size / 2, width:size, height:size};
 }
