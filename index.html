@@ -8,7 +8,6 @@
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#08080a">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='32' fill='%23ecebe6'/%3E%3Ctext x='32' y='42' font-family='Arial Black,Arial' font-weight='900' font-size='26' text-anchor='middle' fill='%2308080a'%3ESF%3C/text%3E%3C/svg%3E">
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&display=swap">
@@ -40,11 +39,12 @@ a{color:inherit}
 .mono{font-family:var(--mono);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--mute)}
 h1,h2,h3{font-family:var(--display);font-stretch:125%;text-wrap:balance;margin:0;line-height:1;font-weight:300}
 
-#space{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+#space,#nebula{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+#nebula{background:radial-gradient(ellipse 50% 45% at 18% 30%,rgba(170,160,140,.05),rgba(0,0,0,0) 70%),radial-gradient(ellipse 55% 50% at 82% 75%,rgba(120,130,160,.07),rgba(0,0,0,0) 70%),radial-gradient(ellipse 40% 35% at 60% 8%,rgba(170,160,140,.04),rgba(0,0,0,0) 70%)}
 main,footer{position:relative;z-index:1}
 
 /* header */
-.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:rgba(8,8,10,.6);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:rgba(8,8,10,.94);border-bottom:1px solid var(--line)}
 .top .wrap{display:flex;align-items:center;gap:28px;padding-block:16px}
 .brand{text-decoration:none;font-family:var(--display);font-stretch:125%;font-weight:600;font-size:.95rem;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap}
 .nav{display:flex;gap:28px;margin-left:auto}
@@ -78,9 +78,11 @@ main,footer{position:relative;z-index:1}
 .recbtn .knob{position:relative;width:34px;height:34px;border-radius:50%;border:1px solid var(--line-2);display:grid;place-items:center;transition:border-color .3s,transform .15s}
 .recbtn:active .knob{transform:scale(.92)}
 .recbtn .knob i{display:block;width:14px;height:14px;border-radius:50%;background:var(--rec);transition:border-radius .3s,width .3s,height .3s,background .3s}
-.recbtn[aria-pressed="true"] .knob{border-color:rgba(255,69,58,.6);animation:recpulse 1.6s infinite}
+.recbtn .knob::after{content:"";position:absolute;inset:-1px;border-radius:50%;border:1px solid rgba(255,69,58,.55);opacity:0;pointer-events:none}
+.recbtn[aria-pressed="true"] .knob{border-color:rgba(255,69,58,.6)}
+.recbtn[aria-pressed="true"] .knob::after{animation:recpulse 1.6s infinite}
 .recbtn[aria-pressed="false"] .knob i{border-radius:2px;width:11px;height:11px;background:var(--paper)}
-@keyframes recpulse{0%{box-shadow:0 0 0 0 rgba(255,69,58,.45)}100%{box-shadow:0 0 0 12px rgba(255,69,58,0)}}
+@keyframes recpulse{0%{transform:scale(1);opacity:.9}100%{transform:scale(1.7);opacity:0}}
 .recbtn .state{min-width:5.5em;color:var(--paper)}
 .recbtn[aria-pressed="true"] .state{color:var(--rec)}
 .recbtn:focus-visible .knob{outline:1px solid var(--paper);outline-offset:3px}
@@ -121,6 +123,7 @@ section.block{padding-block:clamp(48px,6vw,84px)}
 .core .face::after{content:"";position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 50% 50%,rgba(0,0,0,0) 58%,rgba(0,0,0,.45) 100%)}
 .core:hover .face,.core.lit .face,.core:focus-visible .face{transform:scale(1.06)}
 @keyframes blink{50%{opacity:.25}}
+.hero.off *,.hero.off *::before,.hero.off *::after,.galaxy.off *,.galaxy.off *::before,.galaxy.off *::after{animation-play-state:paused!important}
 .core span{position:absolute;left:50%;top:100%;transform:translateX(-50%);margin-top:22px;font-family:var(--mono);font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;color:var(--mute);white-space:nowrap;transition:color .25s}
 .core:hover span,.core:focus-visible span,.core.lit span{color:var(--paper)}
 .core:focus-visible{outline:none}
@@ -128,9 +131,10 @@ section.block{padding-block:clamp(48px,6vw,84px)}
 
 /* planet bodies */
 .ball{display:block;position:relative;border-radius:50%;overflow:hidden;box-shadow:0 0 30px rgba(236,235,230,.12)}
-.ball::before{content:"";position:absolute;inset:0;background:var(--tex);background-size:var(--ts,200% 100%);animation:spin var(--spd,40s) linear infinite}
+.ball::before{content:"";position:absolute;inset:0;background:var(--tex);background-size:var(--ts,100% 100%)}
+.w-dia::before{right:-100%;background-size:50% 100%;background-repeat:repeat-x;animation:spin 60s linear infinite}
 .ball::after{content:"";position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 32% 30%,rgba(255,255,255,.35),rgba(255,255,255,0) 38%),radial-gradient(circle at 70% 72%,rgba(0,0,0,0) 0%,rgba(0,0,0,.85) 72%)}
-@keyframes spin{to{background-position:200% 0}}
+@keyframes spin{to{transform:translateX(-50%)}}
 .w-set{--tex:radial-gradient(circle at 20% 40%,#6c6b67 0 8%,transparent 9%),radial-gradient(circle at 60% 70%,#5b5a56 0 6%,transparent 7%),radial-gradient(circle at 80% 30%,#76756f 0 5%,transparent 6%),#9a9893;--ts:100% 100%}
 .w-dia{--tex:repeating-linear-gradient(90deg,#d9d7d0 0 7%,#c3c1ba 7% 9%,#e6e4dd 9% 14%);--spd:60s}
 .w-sd{--tex:repeating-linear-gradient(180deg,#b9a98a 0 6%,#8f8068 6% 9%,#d8cdb4 9% 15%,#7b6f5d 15% 17%);--spd:28s}
@@ -149,7 +153,7 @@ section.block{padding-block:clamp(48px,6vw,84px)}
 .detail{position:absolute;inset:0;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;gap:40px;padding:40px max(var(--gut),5vw);visibility:hidden;z-index:5}
 .galaxy.zoomed .detail{visibility:visible}
 .detail .big{justify-self:center;position:relative;width:min(340px,28vw);aspect-ratio:1/1}
-.detail .big .ball{width:100%;height:100%;box-shadow:0 0 120px rgba(236,235,230,.18)}
+.detail .big .ball{width:100%;height:100%;box-shadow:0 0 60px rgba(236,235,230,.12)}
 .dtext{display:flex;flex-direction:column;gap:18px;max-width:460px;opacity:0;transform:translateY(12px);transition:opacity .5s,transform .5s}
 .galaxy.zoomed .dtext.show{opacity:1;transform:none}
 .dtext h3{font-size:clamp(2rem,3.6vw,3.2rem);font-weight:400}
@@ -168,6 +172,7 @@ section.block{padding-block:clamp(48px,6vw,84px)}
 .field:hover,.field.on{background:rgba(236,235,230,.06);border-color:rgba(236,235,230,.16)}
 .field.on::after,.field:hover::after{transform:scaleX(1)}
 .field .ball{width:24px;height:24px;grid-row:span 2}
+.field .ball::before{animation:none}
 .field .ball.has-ring .ring{width:170%}
 .field b{font-family:var(--display);font-stretch:112%;font-weight:500;font-size:.95rem;line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .field small{font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
@@ -205,7 +210,7 @@ section.block{padding-block:clamp(48px,6vw,84px)}
 .card.is-active img{filter:none}
 .card .ov{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:16px;background:linear-gradient(0deg,rgba(0,0,0,.75) 0%,rgba(0,0,0,0) 45%)}
 .card .ttl{font-family:var(--display);font-stretch:112%;font-weight:500;font-size:clamp(1rem,1.5vw,1.3rem);line-height:1.05;text-transform:uppercase;text-wrap:balance;overflow-wrap:anywhere}
-.arrow{position:absolute;top:calc(50% - 70px);transform:translateY(-50%);z-index:200;width:50px;height:50px;border-radius:50%;border:1px solid var(--line-2);background:rgba(8,8,10,.6);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:var(--paper);display:grid;place-items:center;cursor:pointer;transition:background .25s,color .25s}
+.arrow{position:absolute;top:calc(50% - 70px);transform:translateY(-50%);z-index:200;width:50px;height:50px;border-radius:50%;border:1px solid var(--line-2);background:rgba(8,8,10,.85);color:var(--paper);display:grid;place-items:center;cursor:pointer;transition:background .25s,color .25s}
 .arrow:hover{background:var(--paper);color:var(--ink)}
 .arrow.prev{left:0}.arrow.next{right:0}
 .arrow svg{width:18px;height:18px}
@@ -263,8 +268,7 @@ html.ship-on .galaxy,html.ship-on .galaxy *{cursor:none!important}
 <style>html,body{margin:0}img{max-width:100%}[hidden]{display:none!important}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}</style>
 </head>
 <body>
-
-
+<div id="nebula" aria-hidden="true"></div>
 <canvas id="space" aria-hidden="true"></canvas>
 <div id="ship" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 22 22"><path class="flame" d="M8.6 16.6 L11 22 L13.4 16.6 Z" fill="#ff453a"/><path d="M11 1.5 L18.5 19 L11 15 L3.5 19 Z" fill="#ecebe6"/><path d="M11 5.5 L11 13.5" stroke="#08080a" stroke-width="1.2"/></svg></div>
 
@@ -299,6 +303,7 @@ html.ship-on .galaxy,html.ship-on .galaxy *{cursor:none!important}
       <div class="head"><span class="mono">Meine Arbeit</span><h2 id="h-arbeit">Vom Set bis zur Musik.</h2></div>
       <div class="galaxy" id="galaxy">
         <div class="system" id="system">
+          <canvas id="orbitsStatic"></canvas>
           <canvas id="orbits"></canvas>
           <button class="core" id="core" aria-label="Über mich öffnen"><i class="face"></i><span>Über mich</span></button>
         </div>
@@ -368,6 +373,7 @@ html.ship-on .galaxy,html.ship-on .galaxy *{cursor:none!important}
 (() => {
 const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const DPR = Math.min(2, devicePixelRatio || 1);
+let LITE = false;   // switched on automatically when the device can't keep up
 const $ = s => document.querySelector(s);
 function hash(str){ let h = 2166136261; for (const c of str) { h ^= c.charCodeAt(0); h = Math.imul(h, 16777619); } return h >>> 0; }
 function rng(seed){ return () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
@@ -376,32 +382,30 @@ function rng(seed){ return () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let 
 const sp = $('#space'), sg = sp.getContext('2d');
 const R0 = rng(11);
 const STARS = Array.from({length:260}, () => ({x:R0(), y:R0(), z:R0(), p:R0() * 6}));
-const NEB = [{x:.18, y:.3, r:.45}, {x:.82, y:.75, r:.5}, {x:.6, y:.1, r:.35}];
 let shoot = null;
-function sizeSpace(){ sp.width = innerWidth * DPR; sp.height = innerHeight * DPR; }
+function sizeSpace(){ sp.width = innerWidth; sp.height = innerHeight; lastSY = -1; }
+let lastSY = -1, lastStars = 0;
 sizeSpace(); addEventListener('resize', sizeSpace);
 function drawSpace(t){
-  const W = sp.width, H = sp.height, sy = scrollY * DPR;
+  const sy = scrollY;
+  // twinkle at ~15 fps, follow scroll immediately, otherwise skip the frame
+  if (sy === lastSY && !shoot && t - lastStars < (LITE ? 1e9 : 66)) return;
+  lastSY = sy; lastStars = t;
+  const W = sp.width, H = sp.height;
   sg.clearRect(0, 0, W, H);
-  NEB.forEach((n, i) => {
-    const y = ((n.y * H * 2 - sy * .05) % (H * 1.6)) - H * .3;
-    const g = sg.createRadialGradient(n.x * W, y, 0, n.x * W, y, n.r * Math.max(W, H));
-    g.addColorStop(0, i === 1 ? 'rgba(120,130,160,.07)' : 'rgba(170,160,140,.05)'); g.addColorStop(1, 'rgba(0,0,0,0)');
-    sg.fillStyle = g; sg.fillRect(0, 0, W, H);
-  });
   STARS.forEach(s => {
     const y = ((s.y * H - sy * (.04 + s.z * .18)) % H + H) % H;
-    const a = (.2 + s.z * .6) * (.6 + .4 * Math.sin(t / 700 + s.p));
-    const r = (.5 + s.z * 1.1) * DPR;
+    const a = (.2 + s.z * .6) * (LITE ? .8 : (.6 + .4 * Math.sin(t / 700 + s.p)));
+    const r = .6 + s.z * 1.2;
     sg.fillStyle = `rgba(236,235,230,${a})`; sg.fillRect(s.x * W, y, r, r);
   });
-  if (!shoot && Math.random() < .002) shoot = {x:Math.random() * W, y:Math.random() * H * .5, l:0};
+  if (!LITE && !shoot && Math.random() < .004) shoot = {x:Math.random() * W, y:Math.random() * H * .5, l:0};
   if (shoot) {
-    shoot.l += 14 * DPR;
-    const g = sg.createLinearGradient(shoot.x, shoot.y, shoot.x - 120 * DPR, shoot.y - 40 * DPR);
+    shoot.l += 14;
+    const g = sg.createLinearGradient(shoot.x, shoot.y, shoot.x - 120, shoot.y - 40);
     g.addColorStop(0, 'rgba(236,235,230,.7)'); g.addColorStop(1, 'rgba(236,235,230,0)');
-    sg.strokeStyle = g; sg.lineWidth = DPR; sg.beginPath(); sg.moveTo(shoot.x, shoot.y); sg.lineTo(shoot.x - 120 * DPR, shoot.y - 40 * DPR); sg.stroke();
-    shoot.x += 12 * DPR; shoot.y += 4 * DPR; if (shoot.l > 700 * DPR) shoot = null;
+    sg.strokeStyle = g; sg.lineWidth = 1; sg.beginPath(); sg.moveTo(shoot.x, shoot.y); sg.lineTo(shoot.x - 120, shoot.y - 40); sg.stroke();
+    shoot.x += 12; shoot.y += 4; if (shoot.l > 700) shoot = null;
   }
 }
 
@@ -482,10 +486,11 @@ const fields = ITEMS.map((w, i) => {
   return f;
 });
 
-let gasC = null, gasG = null, coreLit = 0, gt = 0, paused = false, lastT = 0, current = -1, busy = false;
+let orbitC = $('#orbitsStatic'), orbitKey = '', gasC = null, gasG = null, coreLit = 0, gt = 0, paused = false, lastT = 0, current = -1, busy = false;
 let tilt = .36;
 const warpC = $('#warp'), wpg = warpC.getContext('2d');
-function sizeOrb(){ oc.width = oc.clientWidth * DPR; oc.height = oc.clientHeight * DPR; warpC.width = warpC.clientWidth * DPR; warpC.height = warpC.clientHeight * DPR; }
+// moving parts (tails, gas) render at 1x: they are soft anyway; static orbit lines stay sharp at full resolution
+function sizeOrb(){ oc.width = oc.clientWidth; oc.height = oc.clientHeight; orbitC.width = oc.clientWidth * DPR; orbitC.height = oc.clientHeight * DPR; orbitKey = ''; warpC.width = warpC.clientWidth; warpC.height = warpC.clientHeight; }
 sizeOrb(); addEventListener('resize', sizeOrb);
 function geom(){ const W = galaxy.clientWidth, H = galaxy.clientHeight; tilt = W < 760 ? .66 : .46; return {W, H, S:W < 760 ? W * .9 : Math.min(W * .62, (H - 96) / (2 * .45 * tilt)), cx:W / 2, cy:H / 2}; }
 function pos(w, g){ const ang = w.a + gt * w.sp; return {x:g.cx + Math.cos(ang) * w.r * g.S, y:g.cy + Math.sin(ang) * w.r * g.S * tilt, ang}; }
@@ -496,22 +501,27 @@ function drawGalaxy(t){
   if (!paused && !RM) gt += dt / 1000;
   const g = geom();
   og.clearRect(0, 0, oc.width, oc.height);
-  og.save(); og.scale(DPR, DPR);
-  /* orbit lines: hairlines that are clearer in front and fade out behind the centre */
-  WORLDS.forEach(w => {
-    const rx = w.r * g.S, ry = rx * tilt, N = 120;
-    for (let j = 0; j < N; j++) {
-      const a1 = j / N * Math.PI * 2, a2 = (j + 1) / N * Math.PI * 2, depth = (Math.sin((a1 + a2) / 2) + 1) / 2;
-      og.beginPath(); og.moveTo(g.cx + Math.cos(a1) * rx, g.cy + Math.sin(a1) * ry); og.lineTo(g.cx + Math.cos(a2) * rx, g.cy + Math.sin(a2) * ry);
-      og.strokeStyle = `rgba(236,235,230,${.03 + depth * depth * .16})`; og.lineWidth = 1; og.stroke();
-    }
-  });
+  og.save();
+  /* orbit lines are static: render once per size into a cache */
+  const key = `${orbitC.width}x${orbitC.height}`;
+  if (orbitKey !== key) {
+    orbitKey = key;
+    const c = orbitC.getContext('2d'); c.setTransform(DPR, 0, 0, DPR, 0, 0); c.clearRect(0, 0, orbitC.width, orbitC.height);
+    WORLDS.forEach(w => {
+      const rx = w.r * g.S, ry = rx * tilt, N = 120;
+      for (let j = 0; j < N; j++) {
+        const a1 = j / N * Math.PI * 2, a2 = (j + 1) / N * Math.PI * 2, depth = (Math.sin((a1 + a2) / 2) + 1) / 2;
+        c.beginPath(); c.moveTo(g.cx + Math.cos(a1) * rx, g.cy + Math.sin(a1) * ry); c.lineTo(g.cx + Math.cos(a2) * rx, g.cy + Math.sin(a2) * ry);
+        c.strokeStyle = `rgba(236,235,230,${.03 + depth * depth * .16})`; c.lineWidth = 1; c.stroke();
+      }
+    });
+  }
   /* short comet tail behind each planet, no full orbit lines */
   WORLDS.forEach((w, k) => {
     if (planets[k].style.visibility === 'hidden') return;
     const p = pos(w, g), back = -Math.sign(w.sp), rx = w.r * g.S, ry = rx * tilt, N = 34;
     for (let j = 0; j < N; j++) {
-      const a1 = p.ang + back * j * .02, a2 = p.ang + back * (j + 1) * .02, f = 1 - j / N;
+      const a1 = p.ang + back * j * .038, a2 = p.ang + back * (j + 1) * .038, f = 1 - j / N;
       og.beginPath(); og.moveTo(g.cx + Math.cos(a1) * rx, g.cy + Math.sin(a1) * ry); og.lineTo(g.cx + Math.cos(a2) * rx, g.cy + Math.sin(a2) * ry);
       og.strokeStyle = `rgba(236,235,230,${f * f * .5})`; og.lineWidth = .5 + f * 1.8; og.stroke();
     }
@@ -532,7 +542,7 @@ function drawGalaxy(t){
     gasG.clearRect(0, 0, size, size);
     const c = size / 2;
     gasG.globalCompositeOperation = 'lighter';
-    for (let k = 0; k < 16; k++) {
+    for (let k = 0; k < (LITE ? 6 : 12); k++) {
       const w = .55 + .45 * Math.sin(k * 2.1), sp = .7 + (k % 4) * .22;
       gasG.beginPath();
       for (let a = 0; a <= Math.PI * 2 + .001; a += .05) {
@@ -550,13 +560,14 @@ function drawGalaxy(t){
   WORLDS.forEach((w, i) => {
     const p = pos(w, g), depth = (Math.sin(p.ang) + 1) / 2;
     planets[i].style.transform = `translate(${p.x - w.s / 2}px, ${p.y - w.s / 2}px) scale(${.82 + depth * .3})`;
-    planets[i].style.zIndex = depth > .5 ? 3 : 1;
+    const z = depth > .5 ? '3' : '1'; if (planets[i].style.zIndex !== z) planets[i].style.zIndex = z;
     planets[i].style.opacity = .88 + depth * .12;
   });
 }
 
 /* warp streaks during the jump */
 function warp(o, inward){
+  const DPR = 1;   // the warp layer renders at 1x
   if (RM) return;
   const N = 160, R = Math.random, start = performance.now(), dur = 950;
   const st = Array.from({length:N}, () => ({a:R() * Math.PI * 2, d:30 + R() * 500, l:40 + R() * 220}));
@@ -805,24 +816,26 @@ $('#copy').addEventListener('click', () => {
 /* ---------- only animate what is on screen ---------- */
 let heroOn = true, galOn = true;
 if ('IntersectionObserver' in window) {
-  new IntersectionObserver(([e]) => { heroOn = e.isIntersecting; }).observe($('.hero'));
-  new IntersectionObserver(([e]) => { galOn = e.isIntersecting; }, {rootMargin:'100px'}).observe(galaxy);
+  new IntersectionObserver(([e]) => { heroOn = e.isIntersecting; $('.hero').classList.toggle('off', !heroOn); }).observe($('.hero'));
+  new IntersectionObserver(([e]) => { galOn = e.isIntersecting; galaxy.classList.toggle('off', !galOn); }, {rootMargin:'100px'}).observe(galaxy);
 }
 
-/* ---------- loop ---------- */
-let lastWave = 0;
+/* ---------- loop (drops to a lighter mode if frames are slow) ---------- */
+let lastWave = 0, lastGal = 0, slow = 0, frames = 0, prevT = 0;
 function frame(t){
+  const dt = t - prevT; prevT = t;
+  if (!LITE && frames++ > 30 && !document.hidden) { slow = slow * .95 + (dt > 34 ? 1 : 0) * .05; if (slow > .5) LITE = true; }
   energy *= .955; level += (energy - level) * .2;
   if (heroOn && t - lastWave > 45) { drawWave(); lastWave = t; }
   tc(t); drawSpace(t);
-  if (galOn || galaxy.classList.contains('zoomed')) drawGalaxy(t); else lastT = t;
+  if ((galOn || galaxy.classList.contains('zoomed')) && (!LITE || t - lastGal > 33)) { drawGalaxy(t); lastGal = t; }
+  else if (!galOn) lastT = t;
   if (!RM) requestAnimationFrame(frame);
 }
 document.fonts && document.fonts.ready.then(() => { layout(); updateInfo(); });
-if (RM) { for (let i = 0; i < 200; i++) drawWave(); tc(performance.now()); drawSpace(0); drawGalaxy(0); addEventListener('scroll', () => drawSpace(0), {passive:true}); }
+if (RM) { for (let i = 0; i < 200; i++) drawWave(); tc(performance.now()); drawSpace(0); drawGalaxy(0); addEventListener('scroll', () => drawSpace(performance.now()), {passive:true}); }
 else requestAnimationFrame(frame);
 })();
 </script>
-
 </body>
 </html>
