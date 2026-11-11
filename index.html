@@ -195,7 +195,7 @@ section.block{padding-block:clamp(48px,6vw,84px)}
 @media (prefers-reduced-motion:reduce){.strip-wrap{overflow-x:auto}}
 
 /* filmography */
-.reel{display:grid;grid-template-columns:minmax(0,1fr) 230px;gap:40px;align-items:center}
+.reel{display:grid;grid-template-columns:minmax(0,1fr) 230px;gap:40px;align-items:start}
 .stage-wrap{position:relative;display:flex;flex-direction:column;align-items:center;min-width:0}
 .stage{position:relative;width:100%;height:clamp(320px,36vw,450px);perspective:1400px;touch-action:pan-y;outline:none;user-select:none;-webkit-user-select:none}
 .card{position:absolute;left:50%;top:50%;width:clamp(200px,21vw,290px);aspect-ratio:2/3;margin:0;transform-style:preserve-3d;transition:transform .7s cubic-bezier(.2,.75,.15,1),filter .7s,opacity .5s;cursor:pointer;max-width:100%}
@@ -215,7 +215,7 @@ section.block{padding-block:clamp(48px,6vw,84px)}
 .info.swap > *{animation:fadeup .5s cubic-bezier(.2,.7,.1,1) both}
 @keyframes fadeup{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 .counter{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:.75rem;letter-spacing:.14em;color:var(--mute)}
-.roles{display:flex;flex-direction:column;position:relative}
+.roles{display:flex;flex-direction:column;justify-content:center;position:relative;height:clamp(320px,36vw,450px)}
 .roles .k{margin-bottom:12px}
 .roles button{all:unset;box-sizing:border-box;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:13px 0 13px 20px;cursor:pointer;color:var(--mute);border-left:1px solid var(--line);transition:color .25s}
 .roles button:hover,.roles button.on{color:var(--paper)}
@@ -224,7 +224,7 @@ section.block{padding-block:clamp(48px,6vw,84px)}
 .roles .rail{position:absolute;left:0;width:2px;background:var(--paper);transition:top .5s cubic-bezier(.2,.75,.15,1),height .5s}
 @media (max-width:960px){
   .reel{grid-template-columns:minmax(0,1fr)}
-  .roles{order:-1;flex-direction:row;flex-wrap:wrap;gap:8px}
+  .roles{order:-1;flex-direction:row;flex-wrap:wrap;gap:8px;height:auto}
   .roles .k{width:100%;margin-bottom:2px}
   .roles .rail{display:none}
   .roles button{border:1px solid var(--line);border-radius:999px;padding:8px 14px;font-size:.88rem}
